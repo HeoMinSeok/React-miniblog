@@ -30,20 +30,6 @@ const PostEditPage = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 
-    useEffect(() => {
-        const fetchPost = async () => {
-            try {
-                const response = await axios.get(`/api/blog/get/${postId}`);
-                setTitle(response.data.title);
-                setContent(response.data.content);
-            } catch (error) {
-                console.error('Error fetching post:', error);
-            }
-        };
-
-        fetchPost();
-    }, [postId]);
-
     const editBlog = () => {
         axios
             .put(`/api/blog/edit/${postId}`, {

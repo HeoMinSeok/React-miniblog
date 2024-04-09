@@ -29,17 +29,31 @@ const TitleText = styled.p`
     font-weight: 500;
 `;
 
-const CommentCount = styled.span`
-    font-size: 14px;
-    font-weight: 400;
-`;
-
 const PostListItem = (props) => {
-    const { post, onClick, postId } = props;
+    const { post, onClick } = props;
+    const [repliesCount, setRepliesCount] = useState(0);
+
+    useEffect(() => {
+        fetchRepliesCount(post.idx);
+    });
+
+    const fetchRepliesCount = async () => {
+        try {
+            const response = await axios.get(`/api/replies/count/${post.idx}`);
+            setRepliesCount(response.data);
+        } catch (error) {
+            console.error("Error fetching comment count:", error);
+        }
+    };
+    
+    
+
+    
 
     return (
         <Wrapper onClick={onClick}>
             <TitleText>{post.title}</TitleText>
+            <span>💬 {repliesCount}</span>
         </Wrapper>
     );
 };

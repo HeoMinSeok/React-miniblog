@@ -7,7 +7,6 @@ import MainPage from "./components/page/MainPage";
 import PostWritePage from "./components/page/PostWritePage";
 import PostViewPage from "./components/page/PostViewPage";
 import PostEditPage from "./components/page/PostEditPage";
-import axios from "axios";
 
 const MainTitleText = styled.p`
     font-size: 24px;
@@ -30,8 +29,8 @@ function App(props) {
                 </MainTitleText>
                 <Routes>
                     <Route index element={<MainPage />} />
-                    <Route path="post-write" element={<PostWritePage />} />
-                    <Route path="post-edit/:postId" element={<PostEditPage />} />
+                    {/* <Route path="post-write" element={<PostWritePage />} /> 모달창 구현 */}
+                    {/* <Route path="post-edit/:postId" element={<PostEditPage />} />   모달창 구현 */}
                     <Route path="post/:postId" element={<PostViewPage />} />
                 </Routes>
             </div>

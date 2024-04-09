@@ -25,7 +25,7 @@ const NoListText = styled.p`
     margin: 0;
     position: fixed;
     color: transparent;
-    top: 50%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
     align-items: center;
@@ -61,8 +61,18 @@ const NoPostsImage = styled.img`
     height: auto;
 `;
 
-const PostList = ({ posts, onClickItem }) => {
+const PostList = ({ posts, onClickItem, search }) => {
+    const getFilteredData = () => {
+        if (search === "") {
+            return posts;
+        }
+        return posts.filter((post) =>
+            post.title.toLowerCase().includes(search.toLowerCase()) ||
+            (post.content && post.content.toLowerCase().includes(search.toLowerCase()))
+        );
+    };
 
+    const filteredPost = getFilteredData();
     return (
         <Wrapper>
             {posts.length === 0 ? (
@@ -71,8 +81,9 @@ const PostList = ({ posts, onClickItem }) => {
                     <NoPostsImage src={noPostsIamge} alt="No Posts Image" />
                 </NoListText>
             ) : (
-                posts.map((post) => (
+                filteredPost.map((post) => (
                     <PostListItem
+                        search={search}
                         key={post.idx}
                         post={post}
                         onClick={() => onClickItem(post)}

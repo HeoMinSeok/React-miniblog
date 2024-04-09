@@ -5,7 +5,8 @@ import CommentList from "../list/CommentList";
 import TextInput from "../ui/TextInput";
 import Button from "../ui/Button";
 import axios from "axios";
-import PostWritePage from "./PostWritePage";
+import ModifyModal from "./ModifyModal";
+
 
 const Wrapper = styled.div`
     padding: 16px;
@@ -55,6 +56,11 @@ const PostViewPage = (props) => {
     const [post, setPost] = useState("");
     const [comments, setComments] = useState([]);
     const [comment, setComment] = useState("");
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleModalOpen = () => {
+        setIsModalOpen(true);
+    }
 
     const handleDeletePost = () => {
         const confirmDelete = window.confirm("게시글을 삭제하시겠습니까?");
@@ -108,7 +114,7 @@ const PostViewPage = (props) => {
                 alert("댓글 등록 완료!");
                 navigate(`/post/${postId}`);
 
-                // 댓글을 등록한 후에 새로운 댓글 목록을 다시 가져옴.
+                // 댓글을 등록한 후에 새로운 댓글을 목록에 바로 가져오기 위함
                 axios
                     .get(`/api/replies/list/${postId}`)
                     .then((response) => {
@@ -136,9 +142,10 @@ const PostViewPage = (props) => {
                 />
                 <Button
                     title="수정"
-                    onClick={() => {
-                        navigate(`/post-edit/${postId}`);
-                    }}
+                    // onClick={() => {
+                    //     navigate(`/post-edit/${postId}`);
+                    // }}
+                    onClick={handleModalOpen}
                 />
                 <Button
                     title="삭제"
@@ -167,6 +174,13 @@ const PostViewPage = (props) => {
                     postId={postId}
                 />
             </Container>
+            {isModalOpen && ( 
+                    <ModifyModal
+                        postId={postId}
+                        onClose={() => setIsModalOpen(false)}
+                        post={post}
+                    />
+                )}
         </Wrapper>
     );
 };

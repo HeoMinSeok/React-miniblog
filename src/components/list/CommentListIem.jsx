@@ -53,16 +53,17 @@ const ButtonContainer = styled.div`
 `;
 
 const CommentListItem = (props) => {
-    const { comment} = props;
+    const { comment } = props;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editedContent, setEditedContent] = useState(comment.content);
 
-    const handleDeleteComment = (postId) => {
+    const handleDeleteComment = () => {
         const confirmDelete = window.confirm("댓글을 삭제하시겠습니까?");
         if (confirmDelete) {
             axios
                 .delete(`/api/replies/delete/${comment.ridx}`)
-                .then((response) => {
+                .then(() => {
+                    alert("댓글이 삭제되었습니다.");
                     window.location.reload();
                 })
                 .catch((error) => {
@@ -93,6 +94,8 @@ const CommentListItem = (props) => {
         setIsModalOpen(false);
         setEditedContent(comment.content);
     };
+
+    
 
     return (
         <Wrapper>
